@@ -4,6 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import DoacaoScreen from '../screens/DoacaoScreen';
 import HomeAssociadoScreen from '../screens/HomeAssociadoScreen';
 import VoluntariarScreen from '../screens/VoluntariarScreen';
+import ConfiguracoesAssociadoScreen from '../screens/ConfiguracoesAssociadoScreen';
 
 import Icon from '@expo/vector-icons/FontAwesome';
 
@@ -52,13 +53,25 @@ VoluntariarStack.navigationOptions = {
 };
 
 
+const ConfiguracoesAssociadoStack = createStackNavigator({
+  Voluntariar: ConfiguracoesAssociadoScreen,
+});
+ConfiguracoesAssociadoStack.navigationOptions = {
+  tabBarLabel: 'Configurações',
+  tabBarIcon: ({ tintColor }) => (
+    <Icon
+      name="cog"
+      color={tintColor}
+      size={24}
+    />
+  ),
+};
 
 export default createBottomTabNavigator({
   HomeStack,
   DoacaoStack,
   VoluntariarStack,
-  VoluntariarStack,
-  VoluntariarStack
+  ConfiguracoesAssociadoStack
 }, {
   tabBarOptions: {
     showLabel: false,

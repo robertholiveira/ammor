@@ -33,6 +33,18 @@ export default class HomeHomeAssociadoScreenScreen extends React.Component {
                     <Text style={styles.getStartedText}>
                         Lance receitas e despesas, veja voluntáriados e acompanhe relatórios da ONG.
                     </Text>
+
+                    <View style={styles.buttonContainer}>
+                        <Button
+                            onPress={() => {
+                                AsyncStorage.removeItem('loginToken');
+                                navigation.navigate('Home');
+                            }}
+                            title="Sair"
+                            color="#FC6663"
+                            style={styles.button}
+                        />
+                    </View>
                 </View>
             </View>
         );

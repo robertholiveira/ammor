@@ -36,7 +36,7 @@ export default class HomeHomeAssociadoScreenScreen extends React.Component {
 
                     <View style={styles.buttonContainer}>
                         <Button
-                            onPress={() => AsyncStorage.removeItem('loginToken')}
+                            onPress={() => navigation.navigate('Doacao')}
                             title="Faça uma doação"
                             color="#FC6663"
                             style={styles.button}
