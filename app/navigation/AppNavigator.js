@@ -3,17 +3,20 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator } from 
 
 import AuthLoadingScreen from '../screens/LoadingScreen';
 import LoginScreen from '../screens/LoginScreen';
-import MainTabNavigator from './MainTabNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import CadastroScreen from '../screens/CadastroScreen';
+
+import AssociadoNavigator from './AssociadoNavigator';
+import GerenciadorNavigator from './GerenciadorNavigator';
 
 const AuthStack = createStackNavigator({ Home: HomeScreen, Login: LoginScreen, Cadastro: CadastroScreen });
 
 export default createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    Main: MainTabNavigator,
-    Auth: AuthStack,
+    Associado: AssociadoNavigator,
+    Gerenciador: GerenciadorNavigator,
+    Auth: AuthStack
   },
   {
     initialRouteName: 'AuthLoading'

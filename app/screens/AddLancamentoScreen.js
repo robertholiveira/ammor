@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    AsyncStorage,
     StyleSheet,
     Text,
     View,
@@ -11,42 +10,25 @@ import {
 } from 'react-native';
 
 import RNPickerSelect from 'react-native-picker-select';
-
-import StyledText from '../components/StyledText'
-
-
+import StyledText from '../components/StyledText';
+import { TextInputMask } from 'react-native-masked-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ValidationComponent from 'react-native-form-validator';
-
 import { WSnackBar } from 'react-native-smart-tip';
 
 import api from '../services/api';
 
-const atividades = [
-    {
-        label: 'Palestra',
-        value: 'Palestra',
-    },
-    {
-        label: 'Serviço comunitário',
-        value: 'Serviço comunitário',
-    },
-    {
-        label: 'Serviço médico',
-        value: 'Serviço médico',
-    },
-];
 
-export default class VoluntariarScreen extends ValidationComponent {
+export default class AddLancamentoScreen extends ValidationComponent {
 
     inputRefs = {
-        atividade: null
+        tipo: null
     };
 
     state = {
-        atividade: '',
-        mensagem: '',
-        enviandoRequisicao: false
+        descricao: '',
+        valor: 0,
+        tipo: null
     };
 
     static navigationOptions = {
@@ -54,22 +36,36 @@ export default class VoluntariarScreen extends ValidationComponent {
             backgroundColor: '#d75156',
         },
         headerTintColor: '#fff',
-        headerTitle: <StyledText text={'Seja um voluntário.'} />
+        headerTitle: <StyledText text={'Adicionar lançamento'} />
     };
 
-    Cadastrar = () => {
+    FazerLancamento = () => {
 
-        const { navigation } = this.props;
+    
+        if (this.state.descricao.length == 0 || this.state.valor == 0 || this.state.tipo == null) {
 
+            WSnackBar.show({
+                data: 'Preencha os campos.',
+                position: WSnackBar.position.BOTTOM, // 1.TOP 2.CENTER 3.BOTTOM
+                duration: WSnackBar.duration.LONG, //1.SHORT 2.LONG 3.INDEFINITE
+                textColor: '#F5F5F5',
+                backgroundColor: '#d75156',
+                actionTextColor: '#F5F5F5',
+                height: 60,
+            });
 
-        this.setState({
-            enviandoRequisicao: true
-        });
+        }
+        else {
 
-        api.post('/voluntariados',
+            this.setState({
+                enviandoRequisicao: true
+            });
+    
+            api.post('/lancamentos',
             {
-                atividade: this.state.atividade,
-                mensagem: this.state.mensagem
+                descricao: this.state.descricao,
+                valor: this.state.valor,
+                tipo: this.state.tipo
             })
             .then(async response => {
                 if (response.status == 200) {
@@ -79,7 +75,7 @@ export default class VoluntariarScreen extends ValidationComponent {
                     });
 
                     WSnackBar.show({
-                        data: 'Voluntariado enviado.',
+                        data: 'Lançamento adicionado.',
                         position: WSnackBar.position.BOTTOM, // 1.TOP 2.CENTER 3.BOTTOM
                         duration: WSnackBar.duration.LONG, //1.SHORT 2.LONG 3.INDEFINITE
                         textColor: '#F5F5F5',
@@ -103,65 +99,94 @@ export default class VoluntariarScreen extends ValidationComponent {
                     height: 60,
                 });
             })
+        }
     };
 
     render() {
+
+
+        const tipos = [
+            {
+                label: 'Receita',
+                value: true,
+            },
+            {
+                label: 'Despesa',
+                value: false,
+            }
+        ];
 
         return (
             <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={{ flexGrow: 1 }}>
                 <View style={styles.wrapper}>
 
-                    <View style={styles.iconContainer}>
-                        <Image
-                            source={require('../assets/images/voluntariar-icon.png')}
-                            style={styles.iconImage}
-                        />
-                    </View>
-
                     <Text style={styles.text}>
-                        Escolha uma atividade para se voluntariar e diga-nos como você quer ajudar. Vamos até você!
+                        Faça o lançamento de uma receita ou despesa da ONG.
                     </Text>
 
                     <View style={styles.containerPicker}>
                         <RNPickerSelect
                             placeholder={{
-                                label: 'Selecione uma atividade',
+                                label: 'Selecione um tipo',
                                 value: null,
                                 color: '#9EA0A4',
                             }}
-                            items={atividades}
+                            items={tipos}
                             onValueChange={value => {
                                 this.setState({
-                                    atividade: value,
+                                    tipo: value,
                                 });
                             }}
                             style={pickerSelectStyles}
-                            value={this.state.atividade}
+                            value={this.state.tipo}
                             ref={el => {
-                                this.inputRefs.atividade = el;
+                                this.inputRefs.tipo = el;
                             }}
                         />
                     </View>
 
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Mensagem"
+                        placeholder="Descrição"
                         multiline={true}
                         numberOfLines={6}
                         placeholderTextColor="#999"
                         underlineColorAndroid={'transparent'}
-                        value={this.state.mensagem}
+                        value={this.state.descricao}
                         onChangeText={text => {
                             this.setState({
-                                mensagem: text
+                                descricao: text
                             })
                         }}
                     />
 
+                    <TextInputMask
+                        style={styles.textValor}
+                        type={'money'}
+                        options={{
+                            precision: 2,
+                            separator: '.',
+                            delimiter: ',',
+                            unit: 'R$ ',
+                            suffixUnit: ''
+                        }}
+                        placeholder="Valor"
+                        textAlign={'center'}
+                        placeholderTextColor="#666"
+                        underlineColorAndroid={'transparent'}
+                        value={this.state.valor}
+                        onChangeText={text => {
+                            var valor = text.split(' ');
+                            this.setState({
+                                valor: valor[1]
+                            });
+                        }}
+                    />
+
                     <Button
-                        onPress={() => { this.Cadastrar() }}
+                        onPress={() => { this.FazerLancamento() }}
                         style={styles.button}
-                        title="Voluntariar"
+                        title="Enviar lançamento"
                         color="#FC6663"
                         disabled={this.state.enviandoRequisicao}
                     />
@@ -191,7 +216,18 @@ const styles = StyleSheet.create({
         paddingLeft: 30,
         paddingRight: 30
     },
-
+    textValor: {
+        alignItems: 'stretch',
+        height: 40,
+        marginBottom: 30,
+        marginRight: 5,
+        marginLeft: 5,
+        color: '#FC6663',
+        borderBottomColor: '#FF9D9D',
+        borderBottomWidth: 1,
+        fontSize: 20,
+        fontFamily: 'poppins-bold'
+    },
     errorMessage: {
         color: '#fff',
         paddingTop: 10,

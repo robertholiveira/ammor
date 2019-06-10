@@ -4,6 +4,7 @@ import StyledText from '../components/StyledText';
 
 import { TextInputMask } from 'react-native-masked-text';
 
+
 export default class DoacaoScreen extends Component {
 
     state = {
@@ -116,8 +117,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#666',
         borderBottomWidth: 1,
         fontSize: 20,
-        fontFamily: 'poppins-bold'
-        
+        fontFamily: 'poppins-bold'  
     },
     iconContainer: {
         marginBottom: 10,

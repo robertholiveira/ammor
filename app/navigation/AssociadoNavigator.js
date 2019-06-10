@@ -1,15 +1,14 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import DoacaoScreen from '../screens/DoacaoScreen';
-import HomeLoggedScreen from '../screens/HomeLoggedScreen';
+import HomeAssociadoScreen from '../screens/HomeAssociadoScreen';
 import VoluntariarScreen from '../screens/VoluntariarScreen';
 
 import Icon from '@expo/vector-icons/FontAwesome';
 
 const HomeStack = createStackNavigator({
-  Home: HomeLoggedScreen,
+  Home: HomeAssociadoScreen,
 });
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
@@ -53,9 +52,12 @@ VoluntariarStack.navigationOptions = {
 };
 
 
+
 export default createBottomTabNavigator({
   HomeStack,
   DoacaoStack,
+  VoluntariarStack,
+  VoluntariarStack,
   VoluntariarStack
 }, {
   tabBarOptions: {

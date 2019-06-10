@@ -5,9 +5,10 @@ import {
     Text,
     Button,
     View,
+    AsyncStorage
 } from 'react-native';
 
-export default class HomeLoggedScreen extends React.Component {
+export default class HomeHomeAssociadoScreenScreen extends React.Component {
     
     static navigationOptions = {
         header: null,
@@ -35,7 +36,7 @@ export default class HomeLoggedScreen extends React.Component {
 
                     <View style={styles.buttonContainer}>
                         <Button
-                            onPress={() => navigation.navigate('Doacao')}
+                            onPress={() => AsyncStorage.removeItem('loginToken')}
                             title="Faça uma doação"
                             color="#FC6663"
                             style={styles.button}

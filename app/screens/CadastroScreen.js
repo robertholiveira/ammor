@@ -29,14 +29,9 @@ export default class CadastroScreen extends ValidationComponent {
         enviandoRequisicao: false
     };
 
-
     static navigationOptions = {
-        headerStyle: {
-            backgroundColor: '#d75156',
-        },
-        headerTintColor: '#fff'
+        header: null,
     };
-
 
     Cadastrar = () => {
 
@@ -86,7 +81,7 @@ export default class CadastroScreen extends ValidationComponent {
                             actionText: 'ACESSAR',
                             actionTextColor: '#F5F5F5',
                             height: 60,
-                            actionClick: () => { navigation.navigate('Main') },
+                            actionClick: () => { navigation.navigate('Associado') },
                         });
                     }
                 })
@@ -97,12 +92,9 @@ export default class CadastroScreen extends ValidationComponent {
                         duration: WSnackBar.duration.SHORT, //1.SHORT 2.LONG 3.INDEFINITE
                         textColor: '#F5F5F5',
                         backgroundColor: '#d75156',
-                        actionText: 'ACESSAR',
-                        actionTextColor: '#F5F5F5',
-                        height: 60,
-                        actionClick: () => { navigation.navigate('Main') },
+                        height: 60
                     });
-                })
+                });
         };
     };
 
