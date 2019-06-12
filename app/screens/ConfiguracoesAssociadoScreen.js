@@ -124,7 +124,7 @@ export default class ConfiguracoesAssociadoScreen extends Component {
                         onPress={() => { 
                             AsyncStorage.removeItem('loginToken');
                             AsyncStorage.removeItem('isAdmin');
-                            navigation.navigate('Home');
+                            navigation.navigate('Auth');
                         }}
                         title="Sair da sessão"
                         color="#999"
